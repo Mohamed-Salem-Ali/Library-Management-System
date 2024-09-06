@@ -7,7 +7,6 @@ A Python-based console application to manage a small community library. This sys
 - [Getting Started](#getting-started)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Features
@@ -45,7 +44,7 @@ Make sure you have the following installed:
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/library_management_system.git
+   git clone https://github.com/Mohamed-Salem-Ali/library_management_system.git
    cd library_management_system
    ```
 
@@ -105,16 +104,6 @@ library_management_system/
 ├── data_handler.py   # Manages saving and loading data to/from files
 └── README.md         # This file
 ```
-
-## Contributing
-
-If you’d like to contribute to this project, please follow these guidelines:
-
-1. Fork the repository.
-2. Create a new feature branch (`git checkout -b feature-branch-name`).
-3. Commit your changes (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature-branch-name`).
-5. Create a new Pull Request.
 
 ## License
 
