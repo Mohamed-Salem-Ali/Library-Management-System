@@ -38,12 +38,16 @@ def create_first_admin(library):
 def main():
     library = load_data()  # Load existing data
 
-    # Login process
-    member_id = input("Enter your Member ID: ")
-    member = library.members.get(member_id)
+    # Check if there are any members, if not create an admin
+    member = create_first_admin(library)
+
+    # If admin already exists, proceed to login
     if not member:
-        print("Member not found.")
-        return
+        member_id = input("Enter your Member ID: ")
+        member = library.members.get(member_id)
+        if not member:
+            print("Member not found.")
+            return
 
     while True:
         # Check role and display the appropriate menu
@@ -110,6 +114,6 @@ def main():
             elif choice == '4':
                 save_data(library)
                 break
-
+            
 if __name__ == "__main__":
     main()

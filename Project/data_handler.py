@@ -5,28 +5,48 @@ from member import Member
 from library import Library
 
 def save_data(library):
-    books_data = {book_id: book.__dict__ for book_id, book in library.books.items()}
-    members_data = {member_id: member.__dict__ for member_id, member in library.members.items()}
+    # Save books
+    with open('books_data.txt', 'w') as book_file:
+        for book in library.books.values():
+            book_file.write(f"{book.book_id},{book.title},{book.author},{book.genre},{book.available}\n")
 
-    with open('library_data.json', 'w') as file:
-        json.dump({"books": books_data, "members": members_data}, file)
+    # Save members
+    with open('members_data.txt', 'w') as member_file:
+        for member in library.members.values():
+            borrowed_books_str = ",".join(member.borrowed_books)  # Convert list to a comma-separated string
+            member_file.write(f"{member.member_id},{member.name},{member.role},{borrowed_books_str}\n")
+
+    print("Data saved successfully to text files.")
+
+# data_handler.py
 
 def load_data():
-    try:
-        with open('library_data.json', 'r') as file:
-            data = json.load(file)
+    library = Library()
 
-            library = Library()
-            for book_id, book_info in data['books'].items():
-                book = Book(**book_info)
+    try:
+        # Load books
+        with open('books_data.txt', 'r') as book_file:
+            for line in book_file:
+                book_data = line.strip().split(',')  # Split by commas
+                book_id, title, author, genre, available = book_data
+                available = available == 'True'  # Convert string back to boolean
+                book = Book(book_id, title, author, genre, available)
                 library.books[book_id] = book
 
-            for member_id, member_info in data['members'].items():
-                member = Member(**member_info)
+        # Load members
+        with open('members_data.txt', 'r') as member_file:
+            for line in member_file:
+                member_data = line.strip().split(',')  # Split by commas
+                member_id = member_data[0]
+                name = member_data[1]
+                role = member_data[2]
+                borrowed_books = member_data[3:]  # The rest are borrowed books (optional)
+                member = Member(member_id, name, role, borrowed_books)
                 library.members[member_id] = member
 
-            print("Library data loaded successfully.")
-            return library
+        print("Library data loaded successfully from text files.")
+        return library
+
     except FileNotFoundError:
         print("No previous data found. Starting with an empty library.")
         return Library()
