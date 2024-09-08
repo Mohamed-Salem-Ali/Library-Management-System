@@ -25,8 +25,8 @@ def load_data():
                 member = Member(**member_info)
                 library.members[member_id] = member
 
-            print("Library data loaded.")
+            print("Library data loaded successfully.")
             return library
     except FileNotFoundError:
-        print("No previous data found.")
+        print("No previous data found. Starting with an empty library.")
         return Library()
