@@ -7,7 +7,7 @@ class Book:
      self.library_name = library_name
      self.books_dec = {}
      ID = 100
-     list_of_books = r"C:\Users\2A\mylib\list_of_books.txt"
+     list_of_books = r"C:\Users\2A\mylibrary\Library-Management-System\Project shrouq work\list_of_books.txt"
      with open(self.list_of_books) as bk:
         names= bk.readlines()
      for line in names:
@@ -27,18 +27,24 @@ class Book:
         current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
         if bid in self.books_dec.keys():
             if not self.books_dec[bid]["status"]=="Avaliable":
-             print(f"This book is already borrowed to {self.books_dec[bid]['lender_name']} on {self.books_dec[bid]['issues_date']}")
-             return self.issue_books()
+              print(f"This book is already borrowed to {self.books_dec[bid]['lender_name']} on {self.books_dec[bid]['issues_date']}")
+              return self.issue_books()
             elif self.books_dec[bid]["status"]=="Avaliable":
              yname=input("Enter your name: ")
              self.books_dec[bid]["lender_name"]= yname
              self.books_dec[bid]["issue_date"]= current_date
              self.books_dec[bid]["status"]= "Alread borrowed"
              print("Book is borrowed succesfully \n")
+             del self.books_dec[bid]
         else:
             print("Book is is not found, please enter a correct ID")
-           
+    
+    def delete_book(self):
+        delbook= input("Enter the id of book to delete: ")
+        del self.books_dec[delbook]
+        print("The book has been deleted successfully")
         
+           
     def add_books(self):
         new_book=input("Add new book: ")
         if new_book =="":
