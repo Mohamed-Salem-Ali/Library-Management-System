@@ -26,16 +26,16 @@ class Book:
         bid= input("enter book's ID: ")
         current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
         if bid in self.books_dec.keys():
-            if not self.books_dec[bid]["status"]=="Avaliable":
-              print(f"This book is already borrowed to {self.books_dec[bid]['lender_name']} on {self.books_dec[bid]['issues_date']}")
-              return self.issue_books()
-            elif self.books_dec[bid]["status"]=="Avaliable":
+            if self.books_dec[bid]["status"]=="Avaliable":
              yname=input("Enter your name: ")
              self.books_dec[bid]["lender_name"]= yname
              self.books_dec[bid]["issue_date"]= current_date
-             self.books_dec[bid]["status"]= "Alread borrowed"
              print("Book is borrowed succesfully \n")
-             del self.books_dec[bid]
+             self.books_dec[bid]["status"]= "Alread borrowed"
+            
+            elif self.books_dec[bid]["status"]=="Alread borrowed":
+              print(f"This book is already borrowed to {self.books_dec[bid]['lender_name']} on {current_date}")
+              return self.issue_books()         
         else:
             print("Book is is not found, please enter a correct ID")
     
