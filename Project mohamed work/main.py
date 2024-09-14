@@ -4,7 +4,7 @@ from book import Book
 from member import Member
 from library import Library
 from transaction import borrow_book, return_book
-from data_handler import save_data, load_data
+from data_handler import save_book,save_member,load_data
 
 def admin_menu():
     print("\n--- Admin Menu ---")
@@ -32,7 +32,7 @@ def create_first_admin(library):
         admin_name = input("Enter Admin Name: ")
         admin = Member(admin_id, admin_name, role='admin')
         library.register_member(admin)
-        save_data(library)
+        save_member(library)
         print("Admin account created successfully!")
         return admin
     return None
@@ -94,7 +94,6 @@ def main():
                 genre = input("Genre: ")
                 book = Book(book_id, title, author, genre)
                 library.add_book(book)
-
                 display_all_books(library)
                 
             elif choice == '2':
@@ -128,7 +127,8 @@ def main():
                 return_book(library, user_id, book_id)
 
             elif choice == '8':
-                save_data(library)
+                save_book(library)
+                save_member(library)
                 break
 
         elif member.role == 'user':
@@ -162,7 +162,8 @@ def main():
                 else:
                     print("You have not borrowed any books.")
             elif choice == '5':
-                save_data(library)
+                save_book(library)
+                save_member(library)
                 break
             
 if __name__ == "__main__":
