@@ -40,23 +40,23 @@ def create_first_admin(library):
 def display_all_books(library):
     if library.books:
         # Print table header
-        print("\n--- All Books ---")
-        print(f"{'ID'.ljust(5)} {'Title'.ljust(20)} {'Author'.ljust(20)} {'Genre'.ljust(15)} {'Status'.ljust(10)}")
-        print("-" * 70)
+        print("\n--------------------------------------------------- All Books ---------------------------------------------------")
+        print(f"{'ID'.ljust(5)} {'Title'.ljust(35)} {'Author'.ljust(30)} {'Genre'.ljust(30)} {'Status'.ljust(10)}")
+        print("-" * 113)
         
         # Print each book in a formatted table
         for book in library.books.values():
             status = "Available" if book.available else "Checked Out"
-            print(f"{book.book_id.ljust(5)} {book.title.ljust(20)} {book.author.ljust(20)} {book.genre.ljust(15)} {status.ljust(10)}")
+            print(f"{book.book_id.ljust(5)} {book.title.ljust(35)} {book.author.ljust(30)} {book.genre.ljust(30)} {status.ljust(10)}")
     else:
         print("No books available in the library.")
 
 def display_all_members(library):
     if library.members:
         # Print table header
-        print("\n--- All Members ---")
+        print("\n----------------- All Members -----------------")
         print(f"{'ID'.ljust(5)} {'Name'.ljust(15)} {'Role'.ljust(10)} {'Borrowed Books'.ljust(30)}")
-        print("-" * 60)
+        print("-" * 47)
         
         # Print each member in a formatted table
         for member in library.members.values():
@@ -94,8 +94,11 @@ def main():
                 genre = input("Genre: ")
                 book = Book(book_id, title, author, genre)
                 library.add_book(book)
+
+                display_all_books(library)
                 
             elif choice == '2':
+                display_all_books(library)
                 book_id = input("Enter Book ID to remove: ")
                 library.remove_book(book_id)
                 
@@ -131,27 +134,34 @@ def main():
         elif member.role == 'user':
             user_menu()
             choice = input("Enter your choice: ")
-
             if choice == '1':
+                display_all_books(library)
+            
+            elif choice == '2':
+                display_all_books(library)
                 book_id = input("Book ID: ")
                 borrow_book(library, member.member_id, book_id)
-
-            elif choice == '2':
-                book_id = input("Book ID: ")
-                return_book(library, member.member_id, book_id)
 
             elif choice == '3':
                 if member.borrowed_books:
                     print("Your borrowed books:")
                     for book_id in member.borrowed_books:
-                        if book_id in library.books:
-                            book = library.books[book_id]
-                            print(f"{book.book_id} - {book.title} by {book.author}")
-                    if not any(book_id in library.books for book_id in member.borrowed_books):
-                        print("None of your borrowed books are currently available in the library.")
+                        book = library.books[book_id]
+                        print(f"{book.book_id} - {book.title} by {book.author}")
+                    book_id = input("Book ID: ")
+                    return_book(library, member.member_id, book_id)
                 else:
                     print("You have not borrowed any books.")
+
             elif choice == '4':
+                if member.borrowed_books:
+                    print("Your borrowed books:")
+                    for book_id in member.borrowed_books:
+                        book = library.books[book_id]
+                        print(f"{book.book_id} - {book.title} by {book.author}")
+                else:
+                    print("You have not borrowed any books.")
+            elif choice == '5':
                 save_data(library)
                 break
             
