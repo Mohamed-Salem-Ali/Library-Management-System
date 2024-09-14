@@ -42,15 +42,17 @@ def main():
     member = create_first_admin(library)
 
     # If admin already exists, proceed to login
-    if not member:
-        member_id = input("Enter your Member ID: ")
-        member = library.members.get(member_id)
+    while True:
+        if not member:
+            member_id = input("Enter your Member ID: ")
+            member = library.members.get(member_id)
         if not member:
             print("Member not found.")
-            return
-
+        else:
+            break
     while True:
         # Check role and display the appropriate menu
+        
         if member.role == 'admin':
             admin_menu()
             choice = input("Enter your choice: ")
@@ -66,19 +68,22 @@ def main():
             elif choice == '2':
                 book_id = input("Enter Book ID to remove: ")
                 library.remove_book(book_id)
+                
 
             elif choice == '3':
+                member1=member
                 member_id = input("Member ID: ")
                 name = input("Member Name: ")
                 role = input("Role (admin/user): ")
                 member = Member(member_id, name, role)
                 library.register_member(member)
-
+                member=member1
             elif choice == '4':
                 print("All registered members:")
+                member1=member
                 for member in library.members.values():
                     print(f"{member.member_id}: {member.name} ({member.role})")
-
+                member = member1
             elif choice == '5':
                 user_id = input("User's Member ID: ")
                 book_id = input("Book ID: ")
@@ -106,11 +111,16 @@ def main():
                 return_book(library, member.member_id, book_id)
 
             elif choice == '3':
-                print("Your borrowed books:")
-                for book_id in member.borrowed_books:
-                    book = library.books[book_id]
-                    print(f"{book.book_id} - {book.title} by {book.author}")
-
+                if member.borrowed_books:
+                    print("Your borrowed books:")
+                    for book_id in member.borrowed_books:
+                        if book_id in library.books:
+                            book = library.books[book_id]
+                            print(f"{book.book_id} - {book.title} by {book.author}")
+                    if not any(book_id in library.books for book_id in member.borrowed_books):
+                        print("None of your borrowed books are currently available in the library.")
+                else:
+                    print("You have not borrowed any books.")
             elif choice == '4':
                 save_data(library)
                 break
