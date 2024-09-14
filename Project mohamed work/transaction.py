@@ -4,16 +4,25 @@ def borrow_book(library, member_id, book_id):
     member = library.members.get(member_id)
     book = library.books.get(book_id)
 
-    if member and book:
-        member.borrow_book(book)
+    if not member:
+        print(f"Member with ID {member_id} not found.")
+    elif not book:
+        print(f"Book with ID {book_id} not found.")
+    elif not book.available:
+        print(f"Book '{book.title}' is already borrowed.")
     else:
-        print("Member or Book not found.")
+        member.borrow_book(book)
 
+# Return Book Function
 def return_book(library, member_id, book_id):
     member = library.members.get(member_id)
     book = library.books.get(book_id)
 
-    if member and book:
-        member.return_book(book)
+    if not member:
+        print(f"Member with ID {member_id} not found.")
+    elif not book:
+        print(f"Book with ID {book_id} not found.")
+    elif book.available:
+        print(f"Book '{book.title}' was not borrowed.")
     else:
-        print("Member or Book not found.")
+        member.return_book(book)
