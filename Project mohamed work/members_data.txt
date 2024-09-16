@@ -1,7 +1,4 @@
 1,admin,admin,
-2,mohamed,user,
-6,test,user,
-3,salem,user,
-7,younes,user,2,3,4,6
-10,10,admin,
+3,salem,admin,
+10,shorouk,admin,
 8,ramy,admin,
