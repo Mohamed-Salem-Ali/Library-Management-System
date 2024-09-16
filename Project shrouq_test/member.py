@@ -1,5 +1,3 @@
-# member.py
-
 class Member:
     def __init__(self, member_id, name, role='user', borrowed_books=None):
         self.member_id = member_id
