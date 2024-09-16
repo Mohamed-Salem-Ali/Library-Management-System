@@ -25,10 +25,31 @@ def main():
         # Check role and display the appropriate menu
         
         if member.role == 'admin':
-            admin_menu()
+            admin_menu(member.name)
             choice = input("Enter your choice: ")
 
             if choice == '1':
+                display_all_members(library)
+                member1=member
+                member_id = input("New Member ID: ")
+                name = input("Member Name: ")
+                role = input("Role (admin/user): ")
+                member = Member(member_id, name, role)
+                library.register_member(member)
+                member=member1
+            
+            elif choice == '2':
+                display_all_members(library)
+                delete_member(library)
+                
+            elif choice == '3':
+                display_all_members(library)
+                update_member(library)
+                
+            elif choice == '4':
+                display_all_members(library)
+            
+            elif choice == '5':
                 book_id = input("Book ID: ")
                 title = input("Title: ")
                 author = input("Author: ")
@@ -37,54 +58,43 @@ def main():
                 library.add_book(book)
                 display_all_books(library)
                 
-            elif choice == '2':
+            elif choice == '6':
                 display_all_books(library)
                 book_id = input("Enter Book ID to remove: ")
                 library.remove_book(book_id)
                 
-            elif choice == '3':
+            elif choice == '7':
                 display_books_menu(library)
 
-            elif choice == '4':
+            elif choice == '8':
                 filter_by_genre(library)
 
-            elif choice == '5':
+            elif choice == '9':
                 Search_books(library)
                 
-            elif choice == '6':
-                member1=member
-                member_id = input("Member ID: ")
-                name = input("Member Name: ")
-                role = input("Role (admin/user): ")
-                member = Member(member_id, name, role)
-                library.register_member(member)
-                member=member1
                 
-            elif choice == '7':
-                display_all_members(library)
-                
-            elif choice == '8':
+            elif choice == '10':
                 user_id = input("User's Member ID: ")
                 book_id = input("Book ID: ")
                 borrow_book(library, user_id, book_id)
 
-            elif choice == '9':
+            elif choice == '11':
                 user_id = input("User's Member ID: ")
                 book_id = input("Book ID: ")
                 return_book(library, user_id, book_id)
 
-            elif choice == '10':
+            elif choice == '12':
                 save_book(library)
                 save_member(library)
                 
-            elif choice == '11':
+            elif choice == '13':
                 save_book(library)
                 save_member(library)
                 break
 
 
         elif member.role == 'user':
-            user_menu()
+            user_menu(member.name)
             choice = input("Enter your choice: ")
             if choice == '1':
                 display_books_menu(library)
