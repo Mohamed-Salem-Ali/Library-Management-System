@@ -1,9 +1,9 @@
 1,The Great Gatsby,F. Scott Fitzgerald,Fiction,True
-2,1984,George Orwell,Dystopian,False
-3,To Kill a Mockingbird,Harper Lee,Fiction,False
-4,Moby Dick,Herman Melville,Adventure,False
+2,1984,George Orwell,Dystopian,True
+3,To Kill a Mockingbird,Harper Lee,Fiction,True
+4,Moby Dick,Herman Melville,Adventure,True
 5,War and Peace,Leo Tolstoy,Historical Fiction,True
-6,Pride and Prejudice,Jane Austen,Romance,False
+6,Pride and Prejudice,Jane Austen,Romance,True
 7,The Catcher in the Rye,J.D. Salinger,Fiction,True
 8,The Hobbit,J.R.R. Tolkien,Fantasy,True
 9,Brave New World,Aldous Huxley,Dystopian,True
