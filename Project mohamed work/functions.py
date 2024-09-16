@@ -32,22 +32,89 @@ def return_book(library, member_id, book_id):
         member.return_book(book)
 
 
-def admin_menu():
-    print("\n--- Admin Menu ---")
-    print("1. Add a Book")
-    print("2. Remove a Book")
-    print("3. Display Books")
-    print("4. Filter by Genre")
-    print("5. Search Books")
-    print("6. Register a Member")
-    print("7. View All Members")
-    print("8. Borrow a Book for users")
-    print("9. Return a Book for users")
-    print("10. Save")
-    print("11. Save and Exit")
+def delete_member(library):
+    member_id = input("Enter the ID of the member you want to delete: ")
+    
+    if member_id in library.members:
+        member = library.members[member_id]
+        
+        # Check if the member has borrowed books
+        if member.borrowed_books:
+            print(f"Member {member.name} has borrowed the following books:")
+            for book_id in member.borrowed_books:
+                book = library.books.get(book_id)
+                if book:
+                    print(f"{book.book_id} - {book.title} by {book.author}")
+            
+            force_delete = input("Do you want to forcefully delete this member and return all borrowed books? (yes/no): ").lower()
+            if force_delete == "yes":
+                # Automatically return books and delete member
+                for book_id in member.borrowed_books:
+                    book = library.books.get(book_id)
+                    if book:
+                        book.available = True
+                        print(f"Returned '{book.title}' by {book.author}.")
+                del library.members[member_id]
+                print(f"Member with ID {member_id} has been deleted.")
+            else:
+                print("Member deletion canceled.")
+        else:
+            confirm = input(f"Are you sure you want to delete member {member.name}? (yes/no): ").lower()
+            if confirm == "yes":
+                del library.members[member_id]
+                print(f"Member with ID {member_id} has been deleted.")
+            else:
+                print("Member deletion canceled.")
+    else:
+        print(f"No member found with ID {member_id}.")
 
-def user_menu():
-    print("\n--- User Menu ---")
+        
+
+def update_member(library):
+    member_id = input("Enter the ID of the member you want to update: ")
+    
+    if member_id in library.members:
+        member = library.members[member_id]
+        print(f"Updating information for {member.name} (ID: {member_id})")
+        
+        # Ask what the admin wants to update
+        update_choice = input("What would you like to update? (1: Name, 2: Role): ")
+        
+        if update_choice == '1':
+            new_name = input("Enter the new name: ")
+            member.name = new_name
+            print(f"Member's name has been updated to {new_name}.")
+        
+        elif update_choice == '2':
+            new_role = input("Enter the new role (admin/user): ").lower()
+            if new_role in ['admin', 'user']:
+                member.role = new_role
+                print(f"Member's role has been updated to {new_role}.")
+            else:
+                print("Invalid role. Role not updated.")
+        else:
+            print("Invalid choice. Nothing was updated.")
+    else:
+        print(f"No member found with ID {member_id}.")
+
+def admin_menu(name):
+    print(f"\n--- Menu for {name} ---")
+    print("1. Register a Member")
+    print("2. Delete a Member")
+    print("3. Update a Member")
+    print("4. View All Members")
+    print("5. Add a Book")
+    print("6. Remove a Book")
+    print("7. Display Books")
+    print("8. Filter by Genre")
+    print("9. Search Books")
+    print("10. Borrow a Book for users")
+    print("11. Return a Book for users")
+    print("12. Save")
+    print("13. Save and Exit")
+
+def user_menu(name):
+    print(f"\n--- Menu for {name}---")
     print("1. Display Books")
     print("2. Filter by Genre")
     print("3. Search Books")
@@ -56,6 +123,8 @@ def user_menu():
     print("6. View Borrowed Books")
     print("7. Save")
     print("8. Save and Exit")
+    
+
 def create_first_admin(library):
     if len(library.members) == 0:
         print("No members found. Creating an admin account.")
