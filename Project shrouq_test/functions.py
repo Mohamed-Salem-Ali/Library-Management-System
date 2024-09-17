@@ -1,3 +1,4 @@
+# transaction.py
 from book import Book
 from member import Member
 from data_handler import *
@@ -36,14 +37,18 @@ def delete_member(library):
     
     if member_id in library.members:
         member = library.members[member_id]
+        
+        # Check if the member has borrowed books
         if member.borrowed_books:
             print(f"Member {member.name} has borrowed the following books:")
             for book_id in member.borrowed_books:
                 book = library.books.get(book_id)
                 if book:
                     print(f"{book.book_id} - {book.title} by {book.author}")
+            
             force_delete = input("Do you want to forcefully delete this member and return all borrowed books? (yes/no): ").lower()
             if force_delete == "yes":
+                # Automatically return books and delete member
                 for book_id in member.borrowed_books:
                     book = library.books.get(book_id)
                     if book:
@@ -71,11 +76,15 @@ def update_member(library):
     if member_id in library.members:
         member = library.members[member_id]
         print(f"Updating information for {member.name} (ID: {member_id})")
+        
+        # Ask what the admin wants to update
         update_choice = input("What would you like to update? (1: Name, 2: Role): ")
+        
         if update_choice == '1':
             new_name = input("Enter the new name: ")
             member.name = new_name
             print(f"Member's name has been updated to {new_name}.")
+        
         elif update_choice == '2':
             new_role = input("Enter the new role (admin/user): ").lower()
             if new_role in ['admin', 'user']:
@@ -87,6 +96,34 @@ def update_member(library):
             print("Invalid choice. Nothing was updated.")
     else:
         print(f"No member found with ID {member_id}.")
+
+def admin_menu(name):
+    print(f"\n--- Menu for {name} ---")
+    print("1. Register a Member")
+    print("2. Delete a Member")
+    print("3. Update a Member")
+    print("4. View All Members")
+    print("5. Add a Book")
+    print("6. Remove a Book")
+    print("7. Display Books")
+    print("8. Filter by Genre")
+    print("9. Search Books")
+    print("10. Borrow a Book for users")
+    print("11. Return a Book for users")
+    print("12. Save")
+    print("13. Save and Exit")
+
+def user_menu(name):
+    print(f"\n--- Menu for {name}---")
+    print("1. Display Books")
+    print("2. Filter by Genre")
+    print("3. Search Books")
+    print("4. Borrow a Book")
+    print("5. Return a Book")
+    print("6. View Borrowed Books")
+    print("7. Save")
+    print("8. Save and Exit")
+    
 
 def create_first_admin(library):
     if len(library.members) == 0:
@@ -264,32 +301,3 @@ def Search_books(library):
             break
         else:
             print("Invalid option. Please enter valid number.")
-            
-
-def admin_menu(name):
-    print(f"\n--- Menu for {name} ---")
-    print("1. Register a Member")
-    print("2. Delete a Member")
-    print("3. Update a Member")
-    print("4. View All Members")
-    print("5. Add a Book")
-    print("6. Remove a Book")
-    print("7. Display Books")
-    print("8. Filter by Genre")
-    print("9. Search Books")
-    print("10. Borrow a Book for users")
-    print("11. Return a Book for users")
-    print("12. Save")
-    print("13. Save and Exit")
-
-def user_menu(name):
-    print(f"\n--- Menu for {name}---")
-    print("1. Display Books")
-    print("2. Filter by Genre")
-    print("3. Search Books")
-    print("4. Borrow a Book")
-    print("5. Return a Book")
-    print("6. View Borrowed Books")
-    print("7. Save")
-    print("8. Save and Exit")
-    
