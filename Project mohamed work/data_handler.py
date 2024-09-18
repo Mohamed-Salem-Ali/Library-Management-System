@@ -48,4 +48,4 @@ def load_data():
         return library
     except FileNotFoundError:
         print("No previous data found.")
-        return Library()
+        return library
