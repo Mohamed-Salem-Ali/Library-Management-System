@@ -5,7 +5,7 @@ class Member:
         self.member_id = member_id
         self.name = name
         self.role = role
-        self.borrowed_books = borrowed_books if borrowed_books else []  # Default to an empty list if None
+        self.borrowed_books = [book_id for book_id in borrowed_books if book_id] if borrowed_books else []
         
     def borrow_book(self, book):
         if book.available:

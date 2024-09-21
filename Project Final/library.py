@@ -17,6 +17,12 @@ class Library:
         if book_id in self.books:
             removed_book = self.books.pop(book_id)
             print(f"Removed book: {removed_book.title}")
+            
+            # Remove the book from all members' borrowed_books lists
+            for member in self.members.values():
+                if book_id in member.borrowed_books:
+                    member.borrowed_books.remove(book_id)
+                    print(f"Removed book ID {book_id} from {member.name}'s borrowed books.")
         else:
             print("Book not found.")
 
