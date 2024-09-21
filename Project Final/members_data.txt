@@ -1,2 +1,0 @@
-1,admin,admin,
-2,mohamed,user,
