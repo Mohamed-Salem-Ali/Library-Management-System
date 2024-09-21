@@ -69,7 +69,19 @@ def delete_member(library):
         print(f"No member found with ID {member_id}.")
 
         
-
+def new_member(library):
+    while True:
+        member_id = input("New Member ID: ")
+        if not member_id.isdigit():
+            print("Invalid Member ID. Please enter a valid numeric ID.")
+            continue
+        name = input("Member Name: ")
+        role = input("Enter the new role (admin/user): ").lower()
+        if role not in ['admin', 'user']:
+            print("Invalid role.")
+            continue
+        member = Member(member_id, name, role)
+        return member
 def update_member(library):
     member_id = input("Enter the ID of the member you want to update: ")
     
@@ -127,14 +139,19 @@ def user_menu(name):
 
 def create_first_admin(library):
     if len(library.members) == 0:
-        print("No members found. Creating an admin account.")
-        admin_id = input("Enter Admin ID: ")
-        admin_name = input("Enter Admin Name: ")
-        admin = Member(admin_id, admin_name, role='admin')
-        library.register_member(admin)
-        save_member(library)
-        print("Admin account created successfully!")
-        return admin
+        while True:
+            print("No members found. Creating an admin account.")
+            member_id = input("Enter Admin ID: ")
+            if not member_id.isdigit():
+                print("Invalid Member ID. Please enter a valid numeric ID.")
+                continue  # Re-prompt the user for a valid ID
+            member_name = input("Enter Admin Name: ")
+            admin = Member(member_id, member_name, role='admin')
+            library.register_member(admin)
+            save_member(library)
+            print("Admin account created successfully!")
+            return admin
+            break
     return None
 
 def display_all_books(library):

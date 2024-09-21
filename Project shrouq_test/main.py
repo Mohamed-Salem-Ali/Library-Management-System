@@ -16,10 +16,18 @@ def main():
     while True:
         if not member:
             member_id = input("Enter your Member ID: ")
-            member = library.members.get(member_id)
-        if not member:
-            print("Member not found.")
+            if not member_id.isdigit():
+                print("Invalid Member ID. Please enter a valid numeric ID.")
+                continue  # Re-prompt the user for a valid ID
+            if member_id in library.members:
+                member = library.members.get(member_id)
+                print(f"Welcome {member.name}!")
+                break
+            else:
+                print(f"No member found with ID {member_id}. Please try again.")
+                continue
         else:
+            print(f"Welcome {member.name}!")
             break
     while True:
         # Check role and display the appropriate menu
@@ -31,10 +39,7 @@ def main():
             if choice == '1':
                 display_all_members(library)
                 member1=member
-                member_id = input("New Member ID: ")
-                name = input("Member Name: ")
-                role = input("Role (admin/user): ")
-                member = Member(member_id, name, role)
+                member = new_member(library)
                 library.register_member(member)
                 member=member1
             
