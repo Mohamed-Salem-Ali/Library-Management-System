@@ -113,7 +113,7 @@ def main():
             elif choice == '4':
                 display_all_books(library)
                 book_id = input("Book ID: ")
-                borrow_book(library, member.member_id, book_id)
+                borrow_book(library,member, member_id, book_id)
 
             elif choice == '5':
                 if member.borrowed_books:

@@ -1,9 +1,10 @@
 # transaction.py
+import datetime
 from book import Book
 from member import Member
 from data_handler import *
 
-def borrow_book(library, member_id, book_id):
+def borrow_book(library,member, member_id, book_id):
     member = library.members.get(member_id)
     book = library.books.get(book_id)
 
@@ -12,7 +13,8 @@ def borrow_book(library, member_id, book_id):
     elif not book:
         print(f"Book with ID {book_id} not found.")
     elif not book.available:
-        print(f"Book '{book.title}' is already borrowed.")
+        current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+        print(f"This book is already borrowed to {member.name} on {current_date}")
     else:
         member.borrow_book(book)
 
