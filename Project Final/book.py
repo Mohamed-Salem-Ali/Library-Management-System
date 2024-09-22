@@ -1,3 +1,5 @@
+# class book 
+# attributes id,title,author,genre,available
 class Book:
     def __init__(self, book_id, title, author, genre, available=True):
         self.book_id = book_id
