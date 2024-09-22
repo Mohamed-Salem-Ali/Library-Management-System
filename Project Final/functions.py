@@ -124,7 +124,7 @@ def update_member(library):
         print(f"No member found with ID {member_id}.")
 
 def admin_menu(name):
-    print(f"\n--- Menu for {name} ---")
+    print(f"\n--- Menu for {name} ---\n")
     print("1. Register a Member")
     print("2. Delete a Member")
     print("3. Update a Member")
@@ -137,10 +137,10 @@ def admin_menu(name):
     print("10. Borrow a Book for users")
     print("11. Return a Book for users")
     print("12. Save")
-    print("13. Save and Exit")
+    print("13. Save and Exit\n")
 
 def user_menu(name):
-    print(f"\n--- Menu for {name}---")
+    print(f"\n--- Menu for {name}---\n")
     print("1. Display Books")
     print("2. Filter by Genre")
     print("3. Search Books")
@@ -148,7 +148,7 @@ def user_menu(name):
     print("5. Return a Book")
     print("6. View Borrowed Books")
     print("7. Save")
-    print("8. Save and Exit")
+    print("8. Save and Exit\n")
     
 #use this function if using the app for the first time to create the first admin 
 def create_first_admin(library):
