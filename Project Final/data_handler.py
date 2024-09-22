@@ -19,7 +19,7 @@ def save_member(library):
 
     print("Members data saved successfully.")
 
-
+# Read data from text files and save it in the library 
 def load_data():
     library = Library()
     try:

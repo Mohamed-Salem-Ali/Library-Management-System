@@ -1,39 +1,8 @@
-# main.py
-
 from book import Book
 from member import Member
 from library import Library
-from transaction import borrow_book, return_book
-from data_handler import save_data, load_data
-
-def admin_menu():
-    print("\n--- Admin Menu ---")
-    print("1. Add a Book")
-    print("2. Remove a Book")
-    print("3. Register a Member")
-    print("4. View All Members")
-    print("5. Borrow a Book (for users)")
-    print("6. Return a Book (for users)")
-    print("7. Save and Exit")
-
-def user_menu():
-    print("\n--- User Menu ---")
-    print("1. Borrow a Book")
-    print("2. Return a Book")
-    print("3. View Borrowed Books")
-    print("4. Save and Exit")
-
-def create_first_admin(library):
-    if len(library.members) == 0:
-        print("No members found. Creating an admin account.")
-        admin_id = input("Enter Admin ID: ")
-        admin_name = input("Enter Admin Name: ")
-        admin = Member(admin_id, admin_name, role='admin')
-        library.register_member(admin)
-        save_data(library)
-        print("Admin account created successfully!")
-        return admin
-    return None
+from functions import *
+from data_handler import *
 
 def main():
     library = load_data()  # Load existing data
@@ -41,79 +10,136 @@ def main():
     # Check if there are any members, if not create an admin
     member = create_first_admin(library)
 
-    # If admin already exists, proceed to login
-    if not member:
-        member_id = input("Enter your Member ID: ")
-        member = library.members.get(member_id)
-        if not member:
-            print("Member not found.")
-            return
-
+    # login
     while True:
-        # Check role and display the appropriate menu
+        if not member:
+            member_id = input("Enter your Member ID: ")
+            if not member_id.isdigit():
+                print("Invalid Member ID. Please enter a valid numeric ID.")
+                continue  # Re-prompt the user for a valid ID
+            if member_id in library.members:
+                member = library.members.get(member_id)
+                print(f"\nWelcome {member.name}  ^_^")
+                break
+            else:
+                print(f"No member found with ID {member_id}. Please try again.")
+                continue
+        else:
+            print(f"Welcome {member.name}!")
+            break
+    while True:
+        # Check role and display the menu
+        
         if member.role == 'admin':
-            admin_menu()
+            admin_menu(member.name)
             choice = input("Enter your choice: ")
 
             if choice == '1':
+                display_all_members(library)
+                member1=member
+                member = new_member(library)
+                library.register_member(member)
+                member=member1
+            
+            elif choice == '2':
+                display_all_members(library)
+                delete_member(library)
+                
+            elif choice == '3':
+                display_all_members(library)
+                update_member(library)
+                
+            elif choice == '4':
+                display_all_members(library)
+            
+            elif choice == '5':
                 book_id = input("Book ID: ")
                 title = input("Title: ")
                 author = input("Author: ")
                 genre = input("Genre: ")
                 book = Book(book_id, title, author, genre)
                 library.add_book(book)
-
-            elif choice == '2':
+                display_all_books(library)
+                
+            elif choice == '6':
+                display_all_books(library)
                 book_id = input("Enter Book ID to remove: ")
                 library.remove_book(book_id)
+                
+            elif choice == '7':
+                display_books_menu(library)
 
-            elif choice == '3':
-                member_id = input("Member ID: ")
-                name = input("Member Name: ")
-                role = input("Role (admin/user): ")
-                member = Member(member_id, name, role)
-                library.register_member(member)
+            elif choice == '8':
+                filter_by_genre(library)
 
-            elif choice == '4':
-                print("All registered members:")
-                for member in library.members.values():
-                    print(f"{member.member_id}: {member.name} ({member.role})")
-
-            elif choice == '5':
+            elif choice == '9':
+                Search_books(library)
+                
+                
+            elif choice == '10':
                 user_id = input("User's Member ID: ")
                 book_id = input("Book ID: ")
                 borrow_book(library, user_id, book_id)
 
-            elif choice == '6':
+            elif choice == '11':
                 user_id = input("User's Member ID: ")
                 book_id = input("Book ID: ")
                 return_book(library, user_id, book_id)
 
-            elif choice == '7':
-                save_data(library)
+            elif choice == '12':
+                save_book(library)
+                save_member(library)
+                
+            elif choice == '13':
+                save_book(library)
+                save_member(library)
                 break
 
-        elif member.role == 'user':
-            user_menu()
-            choice = input("Enter your choice: ")
 
+        elif member.role == 'user':
+            user_menu(member.name)
+            choice = input("Enter your choice: ")
             if choice == '1':
+                display_books_menu(library)
+            
+            elif choice == '2':
+                filter_by_genre(library)
+
+            elif choice == '3':
+                Search_books(library)
+                
+            elif choice == '4':
+                display_all_books(library)
                 book_id = input("Book ID: ")
                 borrow_book(library, member.member_id, book_id)
 
-            elif choice == '2':
-                book_id = input("Book ID: ")
-                return_book(library, member.member_id, book_id)
+            elif choice == '5':
+                if member.borrowed_books:
+                    print("Your borrowed books:")
+                    for book_id in member.borrowed_books:
+                        book = library.books[book_id]
+                        print(f"{book.book_id} - {book.title} by {book.author}")
+                    book_id = input("Book ID: ")
+                    return_book(library, member.member_id, book_id)
+                else:
+                    print("You have not borrowed any books.")
 
-            elif choice == '3':
-                print("Your borrowed books:")
-                for book_id in member.borrowed_books:
-                    book = library.books[book_id]
-                    print(f"{book.book_id} - {book.title} by {book.author}")
-
-            elif choice == '4':
-                save_data(library)
-                break
+            elif choice == '6':
+                if member.borrowed_books:
+                    print("Your borrowed books:")
+                    for book_id in member.borrowed_books:
+                        book = library.books[book_id]
+                        print(f"{book.book_id} - {book.title} by {book.author}")
+                else:
+                    print("You have not borrowed any books.")
+            elif choice == '7':
+                save_book(library)
+                save_member(library)
+            
+            elif choice == '8':
+                save_book(library)
+                save_member(library)
+                break   
             
 if __name__ == "__main__":
     main()

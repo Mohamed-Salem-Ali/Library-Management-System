@@ -1,4 +1,3 @@
-# transaction.py
 import datetime
 from book import Book
 from member import Member

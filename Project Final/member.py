@@ -1,17 +1,17 @@
-# member.py
-
+import datetime
 class Member:
     def __init__(self, member_id, name, role='user', borrowed_books=None):
         self.member_id = member_id
         self.name = name
         self.role = role
-        self.borrowed_books = borrowed_books if borrowed_books else []  # Default to an empty list if None
+        self.borrowed_books = [book_id for book_id in borrowed_books if book_id] if borrowed_books else []
         
     def borrow_book(self, book):
         if book.available:
             self.borrowed_books.append(book.book_id)
             book.available = False
-            print(f"{self.name} successfully borrowed '{book.title}'")
+            current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+            print(f"The '{book.title}' book is borrowed by {self.name} on {current_date}")
         else:
             print(f"'{book.title}' is already borrowed.")
 
@@ -19,6 +19,7 @@ class Member:
         if book.book_id in self.borrowed_books:
             self.borrowed_books.remove(book.book_id)
             book.available = True
-            print(f"{self.name} successfully returned '{book.title}'")
+            current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+            print(f"The '{book.title}' book is returned by {self.name} on {current_date}")
         else:
             print(f"{self.name} did not borrow this book.")

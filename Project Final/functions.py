@@ -1,4 +1,4 @@
-# transaction.py
+import datetime
 from book import Book
 from member import Member
 from data_handler import *
@@ -14,7 +14,8 @@ def borrow_book(library, member_id, book_id):
     elif not book:
         print(f"Book with ID {book_id} not found.")
     elif not book.available:
-        print(f"Book '{book.title}' is already borrowed.")
+        current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+        print(f"The {book.title} book is already borrowed to {member.name} on {current_date}")
     else:
         member.borrow_book(book)
 
@@ -29,7 +30,8 @@ def return_book(library, member_id, book_id):
     elif not book:
         print(f"Book with ID {book_id} not found.")
     elif book.available:
-        print(f"Book '{book.title}' was not borrowed.")
+        current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+        print(f"The {book.title} book was returned from {member.name} on {current_date}")
     else:
         member.return_book(book)
 
@@ -57,7 +59,8 @@ def delete_member(library):
                         book.available = True
                         print(f"Returned '{book.title}' by {book.author}.")
                 del library.members[member_id]
-                print(f"Member with ID {member_id} has been deleted.")
+                current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+                print(f"Member with ID {member_id} has been deleted on {current_date}.")
             
             else:
                 print("Member deletion canceled.")
@@ -67,7 +70,8 @@ def delete_member(library):
             
             if confirm == "yes":
                 del library.members[member_id]
-                print(f"Member with ID {member_id} has been deleted.")
+                current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+                print(f"Member with ID {member_id} has been deleted on {current_date}.")
             else:
                 print("Member deletion canceled.")
     
@@ -103,13 +107,15 @@ def update_member(library):
         if update_choice == '1':
             new_name = input("Enter the new name: ")
             member.name = new_name
-            print(f"Member's name has been updated to {new_name}.")
+            current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+            print(f"Member's name has been updated to {new_name}, on {current_date}.")
         
         elif update_choice == '2':
             new_role = input("Enter the new role (admin/user): ").lower()
             if new_role in ['admin', 'user']:
                 member.role = new_role
-                print(f"Member's role has been updated to {new_role}.")
+                current_date=datetime.datetime.now().strftime("%Y-%m_%d %H:%M:%S")
+                print(f"Member's role has been updated to {new_role},on {current_date}.")
             else:
                 print("Invalid role. Role not updated.")
         else:
